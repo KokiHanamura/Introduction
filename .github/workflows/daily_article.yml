@@ -1,0 +1,83 @@
+name: Daily Article Pipeline
+
+on:
+  schedule:
+    - cron: "0 22 * * *"  # 毎日 07:00 JST (UTC+9 → UTC 22:00 前日)
+  workflow_dispatch:
+    inputs:
+      keyword:
+        description: "記事キーワード（省略時はデフォルトキーワードリストから選択）"
+        required: false
+        default: ""
+
+jobs:
+  generate-and-post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r pipeline/requirements.txt
+
+      - name: Pick keyword
+        id: keyword
+        run: |
+          if [ -n "${{ github.event.inputs.keyword }}" ]; then
+            echo "keyword=${{ github.event.inputs.keyword }}" >> $GITHUB_OUTPUT
+          else
+            KEYWORDS=(
+              "Claude Code 使い方 初心者"
+              "Cursor IDE 料金 比較"
+              "Perplexity AI 無料 使い方"
+              "GitHub Copilot 代替 2025"
+              "Claude Pro 料金 機能"
+            )
+            IDX=$(( RANDOM % ${#KEYWORDS[@]} ))
+            echo "keyword=${KEYWORDS[$IDX]}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Generate article
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python3 pipeline/generate_article.py \
+            --keyword "${{ steps.keyword.outputs.keyword }}" \
+            --output pipeline/articles
+
+      - name: Insert affiliate links
+        run: |
+          python3 pipeline/insert_affiliate_links.py \
+            --input pipeline/articles \
+            --in-place
+
+      - name: Generate X posts
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python3 pipeline/generate_x_post.py \
+            --input pipeline/articles \
+            --output pipeline/x_posts
+
+      - name: Post to WordPress (draft)
+        env:
+          WP_URL: ${{ secrets.WP_URL }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_PASSWORD: ${{ secrets.WP_PASSWORD }}
+        run: |
+          python3 pipeline/post_wordpress.py \
+            --input pipeline/articles \
+            --status draft
+
+      - name: Upload generated files as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: articles-${{ github.run_number }}
+          path: |
+            pipeline/articles/
+            pipeline/x_posts/
+          retention-days: 30

@@ -1,3 +1,7 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 # Introduction
 
 Claude Code ハーネスエンジニアリングの実験・学習リポジトリ。
@@ -33,7 +37,7 @@ Introduction/
   docs/
     plans/
       _template/              # co_plan/ai_todo のテンプレート
-      YYYY-MM-DD/             # 日次作業フォルダ（スクリプトで自動生成）
+      YYYYMMDD_<説明>/         # 日次作業フォルダ（スクリプトで自動生成）
         co_plan.md            # Human + AI 協働計画
         ai_todo.md            # AI 専用 TODO（Humans: read-only）
   scripts/
@@ -51,8 +55,10 @@ Introduction/
 | Event | Matcher | Script | 役割 |
 |-------|---------|--------|------|
 | PreToolUse | Bash | check_dangerous.py | 破壊的コマンドをブロック |
+| PreToolUse | EnterPlanMode | ensure_daily_plan.py | 当日フォルダ未作成時に自動生成 |
 | PostToolUse | Edit/Write | check_sensitive_files.py | 機密ファイル編集を警告 |
 | Stop | — | session_summary.py | 未コミット変更を通知 |
+| Stop | — | `afplay Hero.aiff` | 作業完了を効果音で通知 |
 
 ### Permission Model
 
@@ -63,7 +69,7 @@ Introduction/
 ## Gotchas
 
 - `.claude/settings.json` はチーム設定としてバージョン管理に含める
-- `.claude/*.local.md` は個人設定として gitignore 対象
+- `.claude/settings.local.json` は個人設定として gitignore 対象（`Write(.claude/settings.json)` 権限を付与済み）
 - グローバル `~/.claude/settings.json` とプロジェクト設定はマージされる（プロジェクト側が優先）
 - `gh` CLI が未インストールの場合: `brew install gh`
 
@@ -73,11 +79,11 @@ Introduction/
 
 | スキル | 起動方法 | 概要 |
 |--------|---------|------|
-| daily-setup | 「今日のフォルダ作成して」 | `python3 scripts/create_daily_plan.py` を実行し当日フォルダを初期化 |
+| daily-setup | 「今日のフォルダ作成して」 | `python3 scripts/create_daily_plan.py "<作業内容>"` を実行し当日フォルダを初期化（description 引数必須） |
 
 ## Workflow
 
-- **セッション開始時**: `python3 scripts/create_daily_plan.py` で当日フォルダ作成 → `co_plan.md` に目標を記載
+- **セッション開始時**: プランを立てると `ensure_daily_plan.py` フックが自動実行され `docs/plans/YYYYMMDD_作業/` を生成する（手動で説明付きフォルダを作る場合は `python3 scripts/create_daily_plan.py "<作業内容>"`）
 - `ai_todo.md` は Claude のみ編集（Humans: read-only）
 - 新機能: ブランチを切って実装 → PR
 - コミット: 変更の意図（why）を中心に記述

@@ -1,10 +1,12 @@
 # Claude Code 個人設定（チーム共有しない）
 .claude/*.local.md
 .claude/hookify.*.local.md
+.claude/settings.local.json
 
 # 機密情報
 .env
 .env.*
+!.env.example
 *.pem
 *.key
 secrets/
