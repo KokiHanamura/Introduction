@@ -33,6 +33,10 @@ __pycache__/
 venv/
 .venv/
 
+# パイプライン生成物（コミット不要）
+pipeline/articles/
+pipeline/x_posts/
+
 # 一時ファイル
 *.tmp
 *.log

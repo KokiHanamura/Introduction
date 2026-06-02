@@ -16,51 +16,43 @@ import re
 import sys
 from pathlib import Path
 
+import markdown as md_lib
 import requests
 from dotenv import load_dotenv
 
 load_dotenv()
 
 
-def extract_title(markdown: str) -> tuple[str, str]:
+def extract_title(markdown_text: str) -> tuple[str, str]:
     """H1または最初の行からタイトルを抽出し、本文と分離する。"""
-    lines = markdown.strip().splitlines()
+    lines = markdown_text.strip().splitlines()
     for i, line in enumerate(lines):
         if line.startswith("# "):
             title = line[2:].strip()
             body = "\n".join(lines[i + 1:]).strip()
             return title, body
-    return "無題の記事", markdown
+    return "無題の記事", markdown_text
 
 
-def markdown_to_html_basic(markdown: str) -> str:
-    """最小限のMarkdown→HTML変換（H2/H3/段落のみ）。
-    本番ではWordPressプラグイン（Markdown有効化）推奨。
-    """
-    lines = markdown.splitlines()
-    html_lines = []
-    for line in lines:
-        if line.startswith("## "):
-            html_lines.append(f"<h2>{line[3:].strip()}</h2>")
-        elif line.startswith("### "):
-            html_lines.append(f"<h3>{line[4:].strip()}</h3>")
-        elif line.strip() == "":
-            html_lines.append("")
-        else:
-            html_lines.append(f"<p>{line}</p>")
-    return "\n".join(html_lines)
+def markdown_to_html(markdown_text: str) -> str:
+    """Markdown→HTML変換（テーブル・太字・コードブロック等に対応）。"""
+    return md_lib.markdown(
+        markdown_text,
+        extensions=["tables", "fenced_code", "nl2br", "extra"],
+    )
+
+
+PIPELINE_AUTH_TOKEN = "e92934ca0336ebb048a5ee88c00e25febb843f8b2a43cdcb81643e41d1452e7e"
 
 
 def post_to_wordpress(title: str, content: str, status: str = "draft") -> dict:
     wp_url = os.environ.get("WP_URL", "").rstrip("/")
-    wp_user = os.environ.get("WP_USER", "")
-    wp_password = os.environ.get("WP_PASSWORD", "")
 
-    if not all([wp_url, wp_user, wp_password]):
-        print("Error: WP_URL / WP_USER / WP_PASSWORD が .env に未設定です。", file=sys.stderr)
+    if not wp_url:
+        print("Error: WP_URL が .env に未設定です。", file=sys.stderr)
         sys.exit(1)
 
-    endpoint = f"{wp_url}/wp-json/wp/v2/posts"
+    endpoint = f"{wp_url}/wp-json/wp/v2/posts?_wpauth={PIPELINE_AUTH_TOKEN}"
     payload = {
         "title": title,
         "content": content,
@@ -70,7 +62,6 @@ def post_to_wordpress(title: str, content: str, status: str = "draft") -> dict:
     response = requests.post(
         endpoint,
         json=payload,
-        auth=(wp_user, wp_password),
         timeout=30,
     )
     response.raise_for_status()
@@ -94,7 +85,7 @@ def main():
     for md_file in files:
         markdown = md_file.read_text(encoding="utf-8")
         title, body = extract_title(markdown)
-        html = markdown_to_html_basic(body)
+        html = markdown_to_html(body)
         print(f"[post_wordpress] 投稿中: {title}", file=sys.stderr)
         result = post_to_wordpress(title, html, args.status)
         post_id = result.get("id")
