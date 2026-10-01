@@ -40,3 +40,7 @@ pipeline/x_posts/
 # 一時ファイル
 *.tmp
 *.log
+
+# claude-harness
+CLAUDE.local.md
+.claude/*.local.json
