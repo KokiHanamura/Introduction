@@ -1,7 +1,6 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "source": "~/claude-harness",
-  "synced_at": "2026-10-01T09:30:08",
   "settings": "f8d8bb0e10c72b7b81747380ef4e2aa0853935e21890b96a599d9a46103ecf06",
   "files": {
     ".claude/agents/backend-builder.md": "b6b6ada7beb20d5519a002dd367737ec6dd67ebb6440ab50ed8e1339ef4651d3",
@@ -24,5 +23,6 @@
     ".github/PULL_REQUEST_TEMPLATE.md": "541fa8768e17af9ae3b904f1d5cb755a6f7acf8a4217c2ddcde5909ea14d6e68",
     "docs/plans/_template/ai_todo.md": "3ef8f151f3b7a53818a58d2c486d645247a142d467c9548d8c836f332b00ccab",
     "docs/plans/_template/co_plan.md": "a62db2478e1712bbb611ef535cf55cc56e71d4f2adaffa43c26debd0f82c1f30"
-  }
+  },
+  "synced_at": "2026-10-01T09:41:09"
 }
