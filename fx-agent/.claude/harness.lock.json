@@ -1,7 +1,7 @@
 {
   "version": "1.1.0",
   "source": "~/claude-harness",
-  "settings": "361f8edcca559005ad984ef59c106cfa123d432d97d81acaf1822f51bb0090db",
+  "settings": "c54ed92e0054ebb76c87287a3981cc0a2404a866b37b5ebce076f386393feddd",
   "files": {
     ".claude/agents/backend-builder.md": "b6b6ada7beb20d5519a002dd367737ec6dd67ebb6440ab50ed8e1339ef4651d3",
     ".claude/agents/code-reviewer.md": "1ca10fa1f1d321f2480eef31440fcb9582777b91d7e0749ae6f095007710976a",

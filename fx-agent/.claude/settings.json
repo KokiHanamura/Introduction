@@ -15,7 +15,9 @@
       "Bash(git stash *)",
       "Bash(git fetch *)",
       "Bash(python3 .claude/scripts/*)",
-      "Bash(python3 -m pytest *)"
+      "Bash(python3 -m pytest *)",
+      "Bash(python3 -m fxagent *)",
+      "Bash(python3 scripts/*)"
     ],
     "ask": [
       "Bash(git push *)",
@@ -30,7 +32,8 @@
       "Read(./.env.local)",
       "Read(./.env.production)",
       "Read(~/.ssh/**)",
-      "Read(~/.aws/**)"
+      "Read(~/.aws/**)",
+      "Read(./data/broker_credentials*)"
     ]
   },
   "hooks": {
