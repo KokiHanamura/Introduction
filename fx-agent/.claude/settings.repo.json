@@ -1,5 +1,4 @@
 {
-  "language": "japanese",
   "permissions": {
     "allow": [
       "Bash(python3 -m fxagent *)",

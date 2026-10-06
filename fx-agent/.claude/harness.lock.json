@@ -1,7 +1,7 @@
 {
-  "version": "1.0.1",
+  "version": "1.1.0",
   "source": "~/claude-harness",
-  "settings": "f8d8bb0e10c72b7b81747380ef4e2aa0853935e21890b96a599d9a46103ecf06",
+  "settings": "c54ed92e0054ebb76c87287a3981cc0a2404a866b37b5ebce076f386393feddd",
   "files": {
     ".claude/agents/backend-builder.md": "b6b6ada7beb20d5519a002dd367737ec6dd67ebb6440ab50ed8e1339ef4651d3",
     ".claude/agents/code-reviewer.md": "1ca10fa1f1d321f2480eef31440fcb9582777b91d7e0749ae6f095007710976a",
@@ -17,6 +17,7 @@
     ".claude/hooks/session_start.py": "50815d688a917713bdf2d88415197826704281499cfa072a3cb8b5ab8bf53ff0",
     ".claude/hooks/stop_gate.py": "f62587e271eb158e8b37ce14d60c10415f4c43fa88c9ebd1487bfb526caa4a53",
     ".claude/rules/harness.md": "56fc902cc35a54966d4b27720d5059f5bee9122ce8a40a8125b6dacb9fb9f61d",
+    ".claude/rules/language.md": "f4be0622053d3eadd58ff29ffed63da265618f42ebf88c55c914b7dc13ad95c9",
     ".claude/scripts/daily_plan.py": "c43f9c8dc92b69d23b41d7a70c79b05dc90e7e0c57571c484834921d51848379",
     ".claude/skills/daily-setup/SKILL.md": "d3ef2efb3eb3aa56f228cb665fcbe35f60505089c5bd3e2abd90f75c1ca10c43",
     ".claude/skills/feature/SKILL.md": "23bd420765efd42eb223af3c639b2af36d2843bd6c3fe9e0adb607febd801cba",
@@ -24,5 +25,5 @@
     "docs/plans/_template/ai_todo.md": "3ef8f151f3b7a53818a58d2c486d645247a142d467c9548d8c836f332b00ccab",
     "docs/plans/_template/co_plan.md": "a62db2478e1712bbb611ef535cf55cc56e71d4f2adaffa43c26debd0f82c1f30"
   },
-  "synced_at": "2026-10-01T09:41:09"
+  "synced_at": "2026-10-06T23:06:14"
 }
