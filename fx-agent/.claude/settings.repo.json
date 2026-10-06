@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -m fxagent *)",
+      "Bash(python3 scripts/*)"
+    ],
+    "deny": [
+      "Read(./data/broker_credentials*)"
+    ]
+  }
+}

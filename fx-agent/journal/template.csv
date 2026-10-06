@@ -1,0 +1,2 @@
+trade_id,open_time,close_time,pair,direction,entry,exit,stop,target,size,pnl,setup,followed_plan,emotion,notes
+1,2026-10-01 08:15,2026-10-01 10:40,USDJPY,buy,148.250,148.750,148.000,148.750,1.0,5000,押し目買い,yes,平常,MA20 で反発確認

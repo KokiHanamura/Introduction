@@ -1,0 +1,37 @@
+# Claude Code 個人設定
+.claude/*.local.md
+.claude/settings.local.json
+.claude/*.local.json
+CLAUDE.local.md
+
+# 機密情報（ブローカー API キー等）
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# 相場データ・分析結果（大きい / ライセンス上再配布できないことが多い）
+data/*
+!data/README.md
+reports/*
+!reports/.gitkeep
+
+# 自分の実トレード記録（個人情報・口座情報）。sample.csv / template.csv だけコミットする
+journal/*
+!journal/template.csv
+!journal/sample.csv
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# OS / エディタ
+.DS_Store
+.idea/
+.vscode/
+*.swp
